@@ -51,8 +51,13 @@ export function TiltCard({
   useEffect(() => {
     // Touch detection & reduced motion check
     if (typeof window !== 'undefined') {
-      setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
-      setPrefersReducedMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const timer = setTimeout(() => {
+        setIsTouchDevice(isTouch);
+        setPrefersReducedMotion(isReduced);
+      }, 0);
+      return () => clearTimeout(timer);
     }
   }, []);
 

@@ -328,7 +328,7 @@ export function ReportGeneratorView({
                     <XAxis dataKey="month" tick={{ fontSize: 10, fill: '#a1a1aa' }} tickLine={false} axisLine={false} />
                     <YAxis yAxisId="left" tick={{ fontSize: 10, fill: '#a1a1aa' }} tickLine={false} axisLine={false} tickFormatter={(val) => `${val/1000}k`} />
                     <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 10, fill: '#a1a1aa' }} tickLine={false} axisLine={false} tickFormatter={(val) => `₹${val/1000}k`} />
-                    <Tooltip 
+                    <Tooltip
                       contentStyle={{ backgroundColor: '#18181b', borderColor: '#27272a', borderRadius: '12px', fontSize: '12px' }}
                       itemStyle={{ fontWeight: 'bold' }}
                     />

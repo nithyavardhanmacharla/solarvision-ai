@@ -25,7 +25,11 @@ export function Scroll3DCard({
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      setReducedMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const timer = setTimeout(() => {
+        setReducedMotion(isReduced);
+      }, 0);
+      return () => clearTimeout(timer);
     }
   }, []);
 

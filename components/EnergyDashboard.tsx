@@ -456,10 +456,10 @@ export function EnergyDashboard({
             <ComposedChart data={composedChartData} margin={{ top: 20, right: 20, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
               <XAxis dataKey="month" stroke="#64748b" tick={{ fontSize: 11 }} />
-              
+
               <YAxis yAxisId="left" stroke="#64748b" tick={{ fontSize: 11 }} orientation="left" />
               <YAxis yAxisId="right" stroke="#64748b" tick={{ fontSize: 11 }} orientation="right" />
-              
+
               <Tooltip
                 contentStyle={{
                   backgroundColor: '#0f172a',
@@ -487,7 +487,7 @@ export function EnergyDashboard({
           Detailed Monthly Production Metrics
         </h3>
         <p className="text-xs text-slate-400 mb-4">Comprehensive month-by-month solar generation breakdown.</p>
-        
+
         <div className="overflow-x-auto rounded-xl border border-slate-700/50">
           <table className="w-full text-left text-xs text-slate-300">
             <thead className="text-[10px] text-slate-400 bg-slate-800/80 uppercase border-b border-slate-700 font-semibold tracking-wider">
@@ -505,7 +505,7 @@ export function EnergyDashboard({
                 const avgDailyProd = data.totalEnergyKwh / daysInMonth;
                 const eqSunHours = data.totalEnergyKwh / systemConfig.capacityKw;
                 const monthlyPoa = (data.averagePoaKwhM2Day || 0) * daysInMonth;
-                
+
                 return (
                   <tr key={idx} className="hover:bg-slate-800/30 transition-colors">
                     <td className="px-4 py-3 font-medium text-slate-200">{data.month}</td>

@@ -92,7 +92,7 @@ export function SolarAiChatbot({
   };
 
   return (
-    <div data-gsap="fade-up" 
+    <div data-gsap="fade-up"
       className="fixed inset-x-2 bottom-2 sm:inset-auto sm:bottom-6 sm:right-6 z-50 w-auto sm:w-full sm:max-w-md h-[82vh] sm:h-[550px] glass-card rounded-2xl border border-amber-500/30 shadow-2xl flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-5"
       onWheel={(e) => e.stopPropagation()}
       onTouchMove={(e) => e.stopPropagation()}
@@ -144,7 +144,7 @@ export function SolarAiChatbot({
             >
               {msg.content.split('\n').map((line, lIdx) => {
                 if (!line.trim()) return <div key={lIdx} className="h-1" />;
-                
+
                 // Parse bold formatting **text**
                 const parts = line.split(/(\*\*.*?\*\*)/g);
                 return (

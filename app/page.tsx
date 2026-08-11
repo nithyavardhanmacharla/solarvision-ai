@@ -171,7 +171,7 @@ export default function SolarVisionHome() {
     setIsCalculating(true);
     let newTilt = Math.max(10, Math.min(60, Math.round(Math.abs(lat))));
     let newAzimuth = lat >= 0 ? 180 : 0;
-    
+
     try {
       const res = await fetch(`/api/solar/optimal-angles?lat=${lat}&lng=${lng}`);
       if (res.ok) {
@@ -192,8 +192,8 @@ export default function SolarVisionHome() {
     };
     setLocation(prev => ({ ...prev, lat, lng }));
     setSystemConfig(updatedConfig);
-    
-    // We already set isCalculating to true, but runSolarCalculation also sets it. 
+
+    // We already set isCalculating to true, but runSolarCalculation also sets it.
     // It's safe to just call runSolarCalculation which will set it false when done.
     await runSolarCalculation(lat, lng, updatedConfig);
   }, [systemConfig, runSolarCalculation]);
@@ -207,7 +207,7 @@ export default function SolarVisionHome() {
     setIsCalculating(true);
     let newTilt = Math.max(10, Math.min(60, Math.round(Math.abs(location.lat))));
     let newAzimuth = location.lat >= 0 ? 180 : 0;
-    
+
     try {
       const res = await fetch(`/api/solar/optimal-angles?lat=${location.lat}&lng=${location.lng}`);
       if (res.ok) {

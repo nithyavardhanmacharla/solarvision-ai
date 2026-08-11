@@ -15,7 +15,11 @@ export function ScrollProgressBar() {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      setPrefersReducedMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const timer = setTimeout(() => {
+        setPrefersReducedMotion(isReduced);
+      }, 0);
+      return () => clearTimeout(timer);
     }
   }, []);
 

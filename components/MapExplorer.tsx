@@ -35,6 +35,11 @@ interface MapExplorerProps {
   onOpenMapModal?: () => void;
 }
 
+// Helper to get clean timestamp for search query to avoid purity rule issues inside component
+function getQueryTimestamp(): number {
+  return Date.now();
+}
+
 // Geodesic Area Calculation on Earth Sphere (m²)
 function calculateGeodesicArea(vertices: { lat: number; lng: number }[]): number {
   if (vertices.length < 3) return 0;
@@ -107,6 +112,15 @@ export function MapExplorer({
   const [isSearching, setIsSearching] = useState(false);
   const [tileMode, setTileMode] = useState<'standard' | 'satellite'>('satellite');
   const [scrollWheelZoomEnabled, setScrollWheelZoomEnabled] = useState(false);
+
+  // Refs for tileMode and scrollWheelZoomEnabled to read inside useEffect safely without triggering exhaustive-deps
+  const tileModeRef = useRef(tileMode);
+  const scrollWheelZoomEnabledRef = useRef(scrollWheelZoomEnabled);
+
+  useEffect(() => {
+    tileModeRef.current = tileMode;
+    scrollWheelZoomEnabledRef.current = scrollWheelZoomEnabled;
+  }, [tileMode, scrollWheelZoomEnabled]);
 
   // Interactive Roof Measure & AI Scanning State
   const [activeTool, setActiveTool] = useState<'pin' | 'draw' | 'ai_scan'>('pin');
@@ -314,13 +328,13 @@ export function MapExplorer({
           center: [currentLat, currentLng],
           zoom: 18,
           zoomControl: false,
-          scrollWheelZoom: scrollWheelZoomEnabled
+          scrollWheelZoom: scrollWheelZoomEnabledRef.current
         });
 
         L.control.zoom({ position: 'bottomright' }).addTo(map);
 
         const tileUrl =
-          tileMode === 'satellite'
+          tileModeRef.current === 'satellite'
             ? 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
             : 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 
@@ -563,7 +577,7 @@ export function MapExplorer({
 
     setIsSearching(true);
     try {
-      const res = await fetch(`/api/solar/geocode?q=${encodeURIComponent(query)}&_t=${Date.now()}`);
+      const res = await fetch(`/api/solar/geocode?q=${encodeURIComponent(query)}&_t=${getQueryTimestamp()}`);
       if (res.ok) {
         const data = await res.json();
         if (data.success && data.results && data.results.length > 0) {

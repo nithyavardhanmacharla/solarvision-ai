@@ -21,7 +21,11 @@ export function ScrollMotionTransition({
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      setReducedMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const timer = setTimeout(() => {
+        setReducedMotion(isReduced);
+      }, 0);
+      return () => clearTimeout(timer);
     }
   }, []);
 
@@ -42,12 +46,11 @@ export function ScrollMotionTransition({
   const y = useTransform(springProgress, [0, 0.35, 0.75, 1], [45, 0, 0, -35]);
   const blur = useTransform(springProgress, [0, 0.35, 0.75, 1], [8, 0, 0, 6]);
   const rotateX = useTransform(springProgress, [0, 0.35, 0.75, 1], [15, 0, 0, -12]);
+  const filterBlur = useTransform(blur, (b: number) => `blur(${b}px)`);
 
   if (reducedMotion) {
     return <div className={className}>{children}</div>;
   }
-
-  const filterBlur = useTransform(blur, (b: number) => `blur(${b}px)`);
 
   const getStyle = () => {
     switch (type) {
